@@ -1,0 +1,27 @@
+type def for relevant objects
+given a did, do they have a cred from an auth
+proof space wallet, select a did, 
+
+
+create proposal, fill title, descr, all options, mo change ratify change, 
+config choose issuer, does isssuer have 
+choose tokens 
+paste in did
+choose schema
+
+
+>>
+1. verifier did
+2. filertered credential criteria
+
+
+>> in dao, proposal dao, type.go
+1. add subset of fields form clientSettings config, proposal config .VotingPermissions, .VotingWeights
+defaults to be overrided
+
+
+>> ui is in packagages/gov-toolkit
+
+
+what data goes into qr
+when granted 
