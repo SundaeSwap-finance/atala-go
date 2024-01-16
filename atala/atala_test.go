@@ -1,12 +1,33 @@
 package atala
 
 import (
+	"fmt"
+	"net"
+	"os"
 	"regexp"
 	"testing"
+	"time"
 )
 
+const LOCAL_ATALA_HOST = "http://localhost:8191"
+
+func TestMain(m *testing.M) {
+	beforeStart(m)
+	code := m.Run()
+	os.Exit(code)
+}
+
+func beforeStart(m *testing.M) {
+	timeout := time.Duration(1 * time.Second)
+	_, err := net.DialTimeout("tcp", LOCAL_ATALA_HOST, timeout)
+	if err != nil {
+		fmt.Printf("\nERROR - TESTING PRE-CONDITION NOT MET:\nATALA Prism Agent not found, please restart and ensure servers are available at %s\n\n", LOCAL_ATALA_HOST)
+		os.Exit(1)
+	}
+}
+
 func createClient() *Client {
-	issuerClient := CreateClient("http://localhost:8191")
+	issuerClient := CreateClient(LOCAL_ATALA_HOST)
 	return issuerClient
 }
 
