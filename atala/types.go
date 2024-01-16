@@ -11,6 +11,112 @@ type ApiError struct {
 	Instance string
 }
 
+// PROOFS
+type PresentationStatus struct {
+	PresentationId string `json:"presentationId"`
+	Thid           string `json:"thid"`
+	Role           string `json:"role"`
+	Status         string `json:"status"`
+	Proofs         string `json:"proofs"`
+	Data           string `json:"data"`
+	ConnectionId   string `json:"connectionId"`
+	MetaRetries    string `json:"metaRetries"`
+}
+type PresentationStatusList struct {
+	Contents []PresentationStatus
+	Kind     string
+	Self     string
+	PageOf   string
+	Next     string
+	Prev     string
+}
+type RequestPresentationInput struct {
+	ConnectionId     string `json:"connectionId"`
+	Options          string `json:"options"`
+	Proofs           string `json:"proofs"`
+	CredentialFormat string `json:"credentialFormat"`
+}
+
+// CREDENTIAL OFFERS & RECORDS
+type CredentialRecord struct {
+	RecordId          string
+	Thid              string
+	CredentialFormat  string
+	SubjectId         string
+	ValidityPeriod    int
+	Claims            string
+	AutomaticIssuance bool
+	CreatedAt         string
+	UpdatedAt         string
+	Role              string
+	ProtocolState     string
+	Credential        string
+	IssuingDID        string
+	MetaRetries       int
+}
+type CredentialRecordList struct {
+	Contents []CredentialRecord
+	Kind     string
+	Self     string
+	PageOf   string
+	Next     string
+	Prev     string
+}
+type CredentialOfferRequest struct {
+	ValidityPeriod         int    `json:"validityPeriod"`
+	SchemaId               string `json:"schemaId"`
+	CredentialDefinitionId string `json:"credentialDefinitionId"`
+	CredentialFormat       string `json:"credentialFormat"`
+	Claims                 string `json:"claims"`
+	AutomaticIssuance      bool   `json:"automaticIssuance"`
+	IssuingDID             string `json:"issuingDID"`
+	ConnectionId           string `json:"connectionId"`
+}
+
+// SCHEMA
+type Schema struct {
+	Id                   string                 `json:"$id"`
+	Schema               string                 `json:"$schema"`
+	Description          string                 `json:"description"`
+	Type                 string                 `json:"type"`
+	Properties           map[string]interface{} `json:"properties"`
+	Required             []string               `json:"required"`
+	AdditionalProperties bool                   `json:"additionalProperties"`
+}
+type Proof struct {
+	Type               string
+	Created            string
+	VerificationMethod string
+	ProofPurpose       string
+	ProofValue         string
+	Jws                string
+	Domain             string
+}
+type CredentialSchemaList struct {
+	Contents []CredentialSchema
+	Kind     string
+	Self     string
+	PageOf   string
+	Next     string
+	Prev     string
+}
+type CredentialSchema struct {
+	Guid        string   `json:"guid"`
+	Id          string   `json:"id"`
+	LongId      string   `json:"longId"`
+	Name        string   `json:"name"`
+	Version     string   `json:"version"`
+	Tags        []string `json:"tags"`
+	Description string   `json:"description"`
+	Type        string   `json:"type"`
+	Schema      Schema   `json:"schema"`
+	Author      string   `json:"author"`
+	Authored    string
+	Proof       Proof
+	Kind        string
+	Self        string
+}
+
 // DID
 type DID struct {
 	Did         string

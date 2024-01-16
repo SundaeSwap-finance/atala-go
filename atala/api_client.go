@@ -24,14 +24,18 @@ func NewClient(httpClient *http.Client) *Client {
 	return c
 }
 
-// Convenience methods to make GET requests
+// Convenience wrappers to make GET, POST, PUT & PATCH requests
 func GetRequest[O any](c *Client, path string, successCodes ...int) (*http.Response, *O, *ApiError, error) {
 	return makeRequest[O](c, "GET", path, nil, successCodes...)
 }
-
-// Convenience methods to make POST requests
 func PostRequest[O any](c *Client, path string, body []byte, successCodes ...int) (*http.Response, *O, *ApiError, error) {
 	return makeRequest[O](c, "POST", path, body, successCodes...)
+}
+func PutRequest[O any](c *Client, path string, body []byte, successCodes ...int) (*http.Response, *O, *ApiError, error) {
+	return makeRequest[O](c, "PUT", path, body, successCodes...)
+}
+func PatchRequest[O any](c *Client, path string, body []byte, successCodes ...int) (*http.Response, *O, *ApiError, error) {
+	return makeRequest[O](c, "PATCH", path, body, successCodes...)
 }
 
 // Create and excute an HTTP request
