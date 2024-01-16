@@ -1,3 +1,3 @@
-module atala-go
+module github.com/SundaeSwap-finance/atala-go
 
-go 1.20
+go 1.21.5
