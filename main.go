@@ -1,11 +1,12 @@
 package main
 
 import (
-	"atala-go/atala"
 	"encoding/json"
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/SundaeSwap-finance/atala-go/atala"
 )
 
 // Parse args, create clients: issuer agent and optionally holder agent, execute specified flows
