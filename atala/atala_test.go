@@ -1,4 +1,4 @@
-package atala
+package atala_test
 
 import (
 	"fmt"
@@ -7,6 +7,8 @@ import (
 	"regexp"
 	"testing"
 	"time"
+
+	. "github.com/SundaeSwap-finance/atala-go/atala"
 )
 
 const LOCAL_ATALA_HOST = "http://localhost:8191"
