@@ -1,4 +1,4 @@
-package atala
+package atala_test
 
 import (
 	"fmt"
@@ -7,6 +7,8 @@ import (
 	"regexp"
 	"testing"
 	"time"
+
+	. "github.com/SundaeSwap-finance/atala-go/atala"
 )
 
 const LOCAL_ATALA_HOST = "http://localhost:8191"
@@ -49,7 +51,7 @@ func TestCreate_And_GetDID(t *testing.T) {
 		  "services": []
 		}
 	}`)
-	createdDid, apiErr, err, statusCode := c.CreateDID(doc)
+	createdDid, apiErr, statusCode, err := c.CreateDID(doc)
 	expectedStatusCode := 201
 	if statusCode != expectedStatusCode {
 		t.Fatalf("CreateDID should return %d, instead returned:\n%+v\n", expectedStatusCode, statusCode)
@@ -63,7 +65,7 @@ func TestCreate_And_GetDID(t *testing.T) {
 	if !want.MatchString(createdDid.LongFormDid) {
 		t.Fatalf("LongFormDid: Failed to match %#q\n\nCreateDID(doc).LongFormDid = %q\n", want, createdDid.LongFormDid)
 	}
-	did, apiErr, err, statusCode := c.GetDIDDocument(createdDid.LongFormDid)
+	did, _, statusCode, _ := c.GetDIDDocument(createdDid.LongFormDid)
 	if statusCode != 200 {
 		t.Fatalf("After CreateDID call, GetDID should return 200, instead returned:\n%+v\n", statusCode)
 	}
@@ -77,7 +79,7 @@ func TestCreateDID_Error_EmptyDoc(t *testing.T) {
 	c := createClient()
 
 	var doc = []byte("")
-	createdDid, apiErr, err, statusCode := c.CreateDID(doc)
+	createdDid, apiErr, statusCode, err := c.CreateDID(doc)
 	expectedStatusCode := 400
 	if statusCode != expectedStatusCode {
 		t.Fatalf("CreateDID should return %d under API error conditions, instead returned:\n%+v\n", expectedStatusCode, statusCode)
@@ -99,7 +101,7 @@ func TestListDIDs(t *testing.T) {
 	want := regexp.MustCompile(`^` + name)
 
 	c := createClient()
-	dids, apiErr, err, statusCode := c.ListDIDs()
+	dids, apiErr, statusCode, err := c.ListDIDs()
 	expectedStatusCode := 200
 	if statusCode != expectedStatusCode {
 		t.Fatalf("ListDIDs should return %d, instead returned:\n%+v\n", expectedStatusCode, statusCode)
@@ -121,11 +123,14 @@ func TestGetDID(t *testing.T) {
 	want := regexp.MustCompile(`^` + name)
 
 	c := createClient()
-	dids, apiErr, err, _ := c.ListDIDs()
+	dids, _, _, _ := c.ListDIDs()
+	if dids.Contents == nil {
+		t.Fatal("DID List should not be nil")
+	}
 	didRef := dids.Contents[0].LongFormDid
 	// fmt.Printf("DIDs: %+v\n\n%+v\n\n", dids, didRef)
 	// fmt.Println("DIDRef", didRef)
-	did, apiErr, err, statusCode := c.GetDID(didRef)
+	did, apiErr, statusCode, err := c.GetDID(didRef)
 	expectedStatusCode := 200
 	if statusCode != expectedStatusCode {
 		t.Fatalf("GetDID should return %d, instead returned:\n%+v\n", expectedStatusCode, statusCode)
@@ -141,7 +146,7 @@ func TestGetDID(t *testing.T) {
 func TestGetDID_Error_BadDidRef(t *testing.T) {
 	didRef := "1"
 	c := createClient()
-	did, apiErr, err, statusCode := c.GetDID(didRef)
+	did, apiErr, statusCode, err := c.GetDID(didRef)
 	expectedStatusCode := 400
 	if statusCode != expectedStatusCode {
 		t.Fatalf("With bad DID ref, GetDID should return %d, instead returned:\n%+v\n", expectedStatusCode, statusCode)
@@ -163,11 +168,14 @@ func TestGetDIDDocument(t *testing.T) {
 	want := regexp.MustCompile(`^` + name)
 
 	c := createClient()
-	dids, apiErr, err, _ := c.ListDIDs()
+	dids, _, _, _ := c.ListDIDs()
+	if dids.Contents == nil {
+		t.Fatal("DID List should not be nil")
+	}
 	didRef := dids.Contents[0].LongFormDid
 	// fmt.Printf("DIDs: %+v\n\n%+v\n\n", dids, didRef)
 	// fmt.Println("DIDRef", didRef)
-	did, apiErr, err, statusCode := c.GetDIDDocument(didRef)
+	did, apiErr, statusCode, err := c.GetDIDDocument(didRef)
 	// fmt.Printf("DID: %+v\n", did)
 	expectedStatusCode := 200
 	if statusCode != expectedStatusCode {
@@ -187,7 +195,7 @@ func TestGetDIDDocument(t *testing.T) {
 func TestGetDIDDocument_Error_BadDidRef(t *testing.T) {
 	didRef := "1"
 	c := createClient()
-	did, apiErr, err, statusCode := c.GetDIDDocument(didRef)
+	did, apiErr, statusCode, err := c.GetDIDDocument(didRef)
 	expectedStatusCode := 400
 	if statusCode != expectedStatusCode {
 		t.Fatalf("GetDIDDocument should return %d under API error conditions, instead returned:\n%+v\n", expectedStatusCode, statusCode)
