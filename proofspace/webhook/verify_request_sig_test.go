@@ -1,13 +1,13 @@
 package webhook_test
 
 import (
-	. "atala-go/proofspace/webhook"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
 	"testing"
 
+	. "github.com/SundaeSwap-finance/atala-go/proofspace/webhook"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/stretchr/testify/assert"
 )

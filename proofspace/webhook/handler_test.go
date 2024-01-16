@@ -1,7 +1,6 @@
 package webhook_test
 
 import (
-	. "atala-go/proofspace/webhook"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -11,6 +10,8 @@ import (
 	"reflect"
 	"testing"
 	"time"
+
+	. "github.com/SundaeSwap-finance/atala-go/proofspace/webhook"
 
 	"github.com/stretchr/testify/assert"
 )
